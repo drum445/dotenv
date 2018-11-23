@@ -35,21 +35,21 @@ DB_DATABASE=test
 ```
 
 ##### Using a file called .env and loading into your ENV var
-```
+```crystal
 require "dotenv"
 
 Dotenv.load # => {"ENV" => "dev", "PORT" => "3000", "LOGGING" => "true", "CORS" => "*", "DB_DRIVER" => "mysql", "DB_USERNAME" => "root", "DB_PASSWORD" => "password", "DB_HOST" => "localhost", "DB_PORT" => "3306", "DB_DATABASE" => "test"}
 ```
 
 ##### Using a file called .env and NOT loading into your ENV var
-```
+```crystal
 require "dotenv"
 
 hash = Dotenv.load(set_env: false)
 ```
 
 ##### Using a file NOT called .env and loading into your ENV var
-```
+```crystal
 require "dotenv"
 
 Dotenv.load(path: ".env.live")
