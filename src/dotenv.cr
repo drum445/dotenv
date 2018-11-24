@@ -25,7 +25,7 @@ module Dotenv
   end
 
   private def self.process_line(line : String, hash : Hash(String, String))
-    if line != "" && line[0] != "#"
+    if line != "" && line[0].to_s != "#"
       name, value = line.split("=", 2)
       hash[name.strip] = value.strip
     end
