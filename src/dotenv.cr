@@ -9,7 +9,7 @@ module Dotenv
   end
 
   private def self.read_file(path : String)
-    return File.read_lines(path)
+    return File.read_lines(File.expand_path(path))
   end
 
   private def self.process_file(path : String)
