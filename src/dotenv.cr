@@ -8,27 +8,18 @@ module Dotenv
     hash
   end
 
-  private def self.read_file(path : String)
-    return File.read_lines(File.expand_path(path))
-  end
-
   private def self.process_file(path : String)
-    hash = Hash(String, String).new
-
-    lines = read_file(path)
-
-    lines.each do |line|
-      process_line(line, hash)
-    end
-
-    hash
-  end
-
-  private def self.process_line(line : String, hash : Hash(String, String))
-    if line != "" && line[0].to_s != "#"
-      name, value = line.split("=", 2)
-      hash[name.strip] = value.strip
-    end
+    File.read_lines( File.expand_path path )
+      .reject { |line| line =~ /^\s*(?:#.*)?$/ }
+      .map    { |line|
+        if line.match(/^([^#=\s]+)\s*=\s*(?:(?<Q>["'`])((?:(?!\k<Q>|\\).|\\.)*)\k<Q>)(?:\s+(?:#.*)?)?$/)
+          {$1, $3}
+        elsif line.match(/^([^#=\s]+)\s*=\s*([^#\s"']+)(?:\s+(?:#.*)?)?/)
+          {$1, $2}
+        else
+          raise "this line in the env file #{path} was formatted incorrectly: #{line}"
+        end
+      }.to_h
   end
 
   private def self.set_env(hash : Hash(String, String))
