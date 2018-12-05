@@ -12,10 +12,12 @@ module Dotenv
     File.read_lines( File.expand_path path )
       .reject { |line| line =~ /^\s*(?:#.*)?$/ }
       .map    { |line|
-        if line.match(/^([^#=\s]+)\s*=\s*(?:(?<Q>["'`])((?:(?!\k<Q>|\\).|\\.)*)\k<Q>)(?:\s+(?:#.*)?)?$/)
-          {$1, $3}
-        elsif line.match(/^([^#=\s]+)\s*=\s*([^#\s"']+)(?:\s+(?:#.*)?)?/)
-          {$1, $2}
+        if line.match(/^([^#=\s]+)=(?:(?<Q>["`])((?:(?!\k<Q>|\\).|\\.)*)\k<Q>)(?:\s+(?:#.*)?)?$/)
+          { $1, $3.gsub(Regex.new(%q<\\.>)) {|s| s[-1]} }
+        elsif line.match(/^([^#=\s]+)='([^']+)'(?:\s+(?:#.*)?)?$/)
+          { $1, $2 }
+        elsif line.match(/^([^#=\s]+)=([^#\s"'](?:[^\s"']|\\.)*)(?:\s+(?:#.*)?)?$/)
+          { $1, $2.gsub(Regex.new(%q<\\.>)) {|s| s[-1]} }
         else
           raise "this line in the env file #{path} was formatted incorrectly: #{line}"
         end
