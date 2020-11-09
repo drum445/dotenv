@@ -1,8 +1,8 @@
 module Dotenv
-  def self.load(path = ".env", set_env = true) : Hash(String, String)
+  def self.load(path = ".env", set_env = true, override_env = true) : Hash(String, String)
     hash = process_file(path)
     if set_env
-      set_env(hash)
+      set_env(hash, override_env)
     end
 
     hash
@@ -24,9 +24,11 @@ module Dotenv
       }.to_h
   end
 
-  private def self.set_env(hash : Hash(String, String))
+  private def self.set_env(hash : Hash(String, String), override_env : Bool)
     hash.each do |key, value|
-      ENV[key] = value
+      if !ENV.has_key?(key) || override_env
+        ENV[key] = value
+      end
     end
   end
 end
