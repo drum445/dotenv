@@ -55,6 +55,15 @@ require "dotenv"
 Dotenv.load(path: ".env.live")
 ```
 
+### Overriding
+
+By default the existing environment will be overriden by contents of the .env file. To disable this behaviour pass false to override_env parameter:
+```crystal
+require "dotenv"
+
+hash = Dotenv.load(override_env: false)
+```
+
 ## Development
 
 TODO: Write development instructions here
