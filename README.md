@@ -1,7 +1,8 @@
 # dotenv
 
-Loads .env file in Crystal and optionally loads them directly into your ENV var: https://crystal-lang.org/api/0.27.0/ENV.html  
-Will always return the .env file as a hash regardless of whether you chose to load into your ENV or not
+Loads a .env file in Crystal and optionally sets values directly into your [ENV](https://crystal-lang.org/api/latest/ENV.html).
+Will always return the .env file as a hash regardless of whether you chose to load into your `ENV` or not. Will treat a non-existent
+.env file as an empty one.
 
 ## Installation
 
@@ -34,21 +35,21 @@ DB_PORT=3306
 DB_DATABASE=test
 ```
 
-##### Using a file called .env and loading into your ENV var
+##### Using a file called .env and loading into your `ENV`
 ```crystal
 require "dotenv"
 
 Dotenv.load # => {"ENV" => "dev", "PORT" => "3000", "LOGGING" => "true", "CORS" => "*", "DB_DRIVER" => "mysql", "DB_USERNAME" => "root", "DB_PASSWORD" => "password", "DB_HOST" => "localhost", "DB_PORT" => "3306", "DB_DATABASE" => "test"}
 ```
 
-##### Using a file called .env and NOT loading into your ENV var
+##### Using a file called .env and NOT loading into your `ENV`
 ```crystal
 require "dotenv"
 
 hash = Dotenv.load(set_env: false)
 ```
 
-##### Using a file NOT called .env and loading into your ENV var
+##### Using a file NOT called .env and loading into your `ENV`
 ```crystal
 require "dotenv"
 
@@ -66,7 +67,10 @@ hash = Dotenv.load(override_env: false)
 
 ## Development
 
-TODO: Write development instructions here
+1. Clone the repository: `git clone git@github.com:drum445/dotenv.git`.
+   There are no dependencies, so no `shards install` is needed (but won't do any harm).
+3. Change into the project root directory: `cd dotenv`.
+2. Run specs: `crystal spec`.
 
 ## Contributing
 

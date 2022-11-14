@@ -1,11 +1,11 @@
 module Dotenv
   def self.load(path = ".env", set_env = true, override_env = true) : Hash(String, String)
     hash = process_file(path)
-    if set_env
-      set_env(hash, override_env)
-    end
+    set_env(hash, override_env) if set_env
 
     hash
+  rescue exc : File::NotFoundError
+    Hash(String, String).new
   end
 
   private def self.process_file(path : String)
