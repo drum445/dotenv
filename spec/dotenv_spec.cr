@@ -19,5 +19,13 @@ describe Dotenv do
       Dotenv.load("spec/data/connect.env", override_env: false)
       ENV["DB_HOST"].should eq "example.com"
     end
+
+    it "produces an empty hash with an empty dotenv file" do
+      Dotenv.load("spec/data/empty.env").should eq Hash(String, String).new
+    end
+
+    it "produces an empty hash with a non-existent dotenv file" do
+      Dotenv.load("no/such/path.env").should eq Hash(String, String).new
+    end
   end
 end
